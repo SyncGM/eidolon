@@ -75,7 +75,7 @@ module Eidolon
     @built = true
     self.rgss_version = version unless version == @rgss_version
     require 'eidolon/rgssx'
-    require "eidolon/#{@rgss_version.downcase}/rpg"
+    require "eidolon/#{@rgss_version.downcase}"
   end
   
   # Returns +true+ if data structures have been built, +false+ otherwise.
