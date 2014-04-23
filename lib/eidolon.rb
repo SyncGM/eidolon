@@ -53,7 +53,7 @@ module Eidolon
   #    Eidolon.rgss_version = "rgss3" # Sets the version to "RGSS3".
   #    Eidolon.rgss_version = 1       # Sets the version to "RGSS".
   def self.rgss_version=(value)
-    value = if value =~ /^rgss(\d?)$/i
+    value = if value =~ /^rgss(\d?)/i
       $1.empty? ? 1 : $1
     else value end.to_i
     return unless value.between?(1, 3)
@@ -72,7 +72,7 @@ module Eidolon
   # **Note:** This inherently changes the default data structures if multiple
   # RGSS versions are built.
   def self.force_build!(version = @rgss_version)
-    @built = true
+    @built = true unless built?
     self.rgss_version = version unless version == @rgss_version
     require 'eidolon/rgssx'
     require "eidolon/#{@rgss_version.downcase}"
