@@ -1,3 +1,7 @@
+# This file requires all of the internal data structures used by RPG Maker VX
+# Ace. Essentially, requiring this file will build a generic copy of the VX Ace
+# data structures for use in a Ruby installation outside of Ace itself.
+
 require 'eidolon/rgss3/rpg/actor'
 require 'eidolon/rgss3/rpg/animation'
 require 'eidolon/rgss3/rpg/animation/frame'
