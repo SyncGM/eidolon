@@ -1,0 +1,1 @@
+require 'eidolon/rgss/rpg'
