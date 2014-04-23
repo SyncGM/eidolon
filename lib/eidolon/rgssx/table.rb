@@ -6,7 +6,6 @@ class Table
   def self._load(array) # :nodoc:
     self.class.new.instance_eval do
       @size, @xsize, @ysize, @zsize, _, *@data = array.unpack('LLLLLS*')
-      self
     end
   end
 end
