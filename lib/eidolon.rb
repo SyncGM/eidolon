@@ -82,11 +82,12 @@ module Eidolon
   # Returns +true+ if the data structures were built, +false+ otherwise.
   def self.build!(version = @rgss_version)
     return false if version.nil?
-    self.rgss_version = version if valid?(version)
-    @built.push(@rgss_version).sort!.uniq!
+    self.rgss_version = version
+    @built.push(@rgss_version).compact.sort!.uniq!
     load 'eidolon/rgssx/loader.rb'
     load "eidolon/#{@rgss_version}/loader.rb"
-  rescue
+  rescue LoadError
+    destroy!
     false
   end
   
