@@ -7,7 +7,7 @@ require 'eidolon/version'
 # and dependency agnostic.
 # 
 # == Usage
-# It is recommended that you explicitly decalre which RGSS version Eidolon
+# It is recommended that you explicitly declare which RGSS version Eidolon
 # should use before building the RGSSx data structures required; this is done
 # through the +Eidolon.rgss_version=+ method. This method accepts both integer
 # and representative string values -- for example, passing it an argument of
@@ -23,6 +23,12 @@ require 'eidolon/version'
 # You may use the +Eidolon.force_build!+ method if you need to build the RGSS
 # data structures again for any reason -- just be aware that this is likely to
 # mutate the default data structures (or fail entirely).
+
+# You will need to use the +Eidolon.destroy!+ method if you intend to use more
+# than one RGSS version in a single Ruby session. On their own, the RGSSx data
+# structures are inherently incompatible with one another -- as such, the
+# previous data structures must be destroyed, which is what +Eidolon.destroy!+
+# does for you.
 # 
 # == Example
 #     require 'eidolon'
@@ -33,11 +39,15 @@ require 'eidolon/version'
 #     Eidolon.build        # => true
 #     Eidolon.built?       # => true
 #     
-#     # Forcing a build of the RGSS (XP) data structures as well.
-#     Eidolon.rgss_version = 1
-#     Eidolon.rgss_version # => "RGSS"
-#     Eidolon.build        # => false
-#     Eidolon.force_build! # => true
+#     # Destroy the previously built RGSS3 data structures.
+#     Eidolon.destroy!
+#     Eidolon.built? # => false
+#     
+#     # Now we can build the RGSS (XP) data structures as well.
+#     Eidolon.build(1) # => true
+#     
+#     # Obtaining an array of the built RGSSx structures.
+#     Eidolon.built # => ["RGSS", "RGSS3"]
 module Eidolon
   class << self
     # The RGSSx version used by Eidolon. This determines which data structures
@@ -45,16 +55,12 @@ module Eidolon
     attr_reader :rgss_version
     
     # An array of the RGSS versions which have had their data structures built
-    # by Eidolon. Realistically, this array is likely to only have one element
-    # (if any).
+    # by Eidolon.
     attr_reader :built
   end
   
   # Initialize the array of built RGSS versions.
   @built = []
-  
-  # Set the RGSS version to build as "RGSS3" by default.
-  @rgss_version = 'RGSS3'
   
   # Set the RGSS version used by Eidolon to the passed value. May be set to an
   # integer or representative string value for the desired RGSS version.
@@ -75,6 +81,7 @@ module Eidolon
   # ensuring that only the data structures from a single RGSS version will be
   # built.
   def self.build(version = @rgss_version)
+    return false if version.nil?
     built? ? false : force_build!(version)
   end
   
@@ -82,6 +89,7 @@ module Eidolon
   # **Note:** This inherently changes the default data structures if multiple
   # RGSS versions are built.
   def self.force_build!(version = @rgss_version)
+    return false if version.nil?
     self.rgss_version = version unless version == @rgss_version
     @built.push(@rgss_version).sort!.uniq!
     load 'eidolon/rgssx/loader.rb'

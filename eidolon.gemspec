@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   # Basic gem information.
   gem.name     = 'eidolon'
   gem.version  = Eidolon::VERSION
-  gem.authors  = ['Solistra', 'Enelvon']
-  gem.email    = ['solistra@gmx.com', 'enelvon@gmail.com']
+  gem.authors  = Eidolon::AUTHORS.keys
+  gem.email    = Eidolon::AUTHORS.values
   gem.homepage = 'https://github.com/sesvxace/eidolon'
   gem.platform = Gem::Platform::RUBY
   gem.license  = 'MIT'
