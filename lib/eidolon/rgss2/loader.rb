@@ -2,6 +2,8 @@
 # Essentially, requiring this file will build a generic copy of the VX data
 # structures for use in a Ruby installation outside of VX itself.
 
+require 'eidolon/rgssx'
+
 # Audio data structures.
 load 'eidolon/rgss2/rpg/bgm.rb'
 load 'eidolon/rgss2/rpg/bgs.rb'

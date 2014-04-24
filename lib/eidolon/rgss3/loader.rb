@@ -2,6 +2,8 @@
 # Ace. Essentially, requiring this file will build a generic copy of the VX Ace
 # data structures for use in a Ruby installation outside of Ace itself.
 
+require 'eidolon/rgssx'
+
 # Audio data structures.
 load 'eidolon/rgss3/rpg/bgm.rb'
 load 'eidolon/rgss3/rpg/bgs.rb'

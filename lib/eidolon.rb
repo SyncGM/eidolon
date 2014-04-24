@@ -69,11 +69,13 @@ module Eidolon
   #    Eidolon.rgss_version = "rgss3" # Sets the version to "RGSS3".
   #    Eidolon.rgss_version = 1       # Sets the version to "RGSS".
   def self.rgss_version=(value)
-    value = if value =~ /^rgss(\d?)/i
-      $1.empty? ? 1 : $1
-    else value end.to_i
+    if value =~ /^rgss(\d?)/i
+      value = ($1.empty? ? 1 : $1).to_i
+    else
+      value = value.to_i
+    end
     return unless value.between?(1, 3)
-    @rgss_version = "RGSS#{value if value > 1}"
+    @rgss_version = "rgss#{value if value > 1}"
   end
   
   # Builds the data structures for the desired RGSS version. Returns +true+ if
@@ -82,18 +84,19 @@ module Eidolon
   # built.
   def self.build(version = @rgss_version)
     return false if version.nil?
-    built? ? false : force_build!(version)
+    built? ? false : build!(version)
   end
   
   # Forces building of the data structures for the desired RGSS version.
-  # **Note:** This inherently changes the default data structures if multiple
-  # RGSS versions are built.
-  def self.force_build!(version = @rgss_version)
+  # Returns +true+ if the data structures were built, +false+ otherwise.
+  def self.build!(version = @rgss_version)
     return false if version.nil?
     self.rgss_version = version unless version == @rgss_version
     @built.push(@rgss_version).sort!.uniq!
     load 'eidolon/rgssx/loader.rb'
-    load "eidolon/#{@rgss_version.downcase}/loader.rb"
+    load "eidolon/#{@rgss_version}/loader.rb"
+  rescue
+    false
   end
   
   # Destroys the currently built RGSS data structures. Returns +true+ if the
