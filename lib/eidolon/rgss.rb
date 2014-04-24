@@ -1,1 +1,1 @@
-require 'eidolon/rgss/rpg'
+load 'eidolon/rgss/rpg.rb'

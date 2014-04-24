@@ -41,7 +41,15 @@ module Eidolon
     # The RGSSx version used by Eidolon. This determines which data structures
     # to require in order to facilitate working with serialized RGSSx data.
     attr_reader :rgss_version
+    
+    # An array of the RGSS versions which have had their data structures built
+    # by Eidolon. Realistically, this array is likely to only have one element
+    # (if any).
+    attr_reader :built
   end
+  
+  # Initialize the array of built RGSS versions.
+  @built = []
   
   # Set the RGSS version to build as "RGSS3" by default.
   @rgss_version = 'RGSS3'
@@ -72,14 +80,23 @@ module Eidolon
   # **Note:** This inherently changes the default data structures if multiple
   # RGSS versions are built.
   def self.force_build!(version = @rgss_version)
-    @built = true unless built?
     self.rgss_version = version unless version == @rgss_version
+    @built.push(@rgss_version).sort!.uniq!
     require 'eidolon/rgssx'
-    require "eidolon/#{@rgss_version.downcase}"
+    load "eidolon/#{@rgss_version.downcase}.rb"
+  end
+  
+  # Destroys the currently built RGSS data structures. Returns +true+ if the
+  # data structures were destroyed, +false+ otherwise (normally, this method
+  # will only return +false+ if there were no data structures to destroy).
+  def self.destroy!
+    true if Object.send(:remove_const, :RPG)
+  rescue NameError
+    false
   end
   
   # Returns +true+ if data structures have been built, +false+ otherwise.
   def self.built?
-    @built ? true : false
+    Object.const_defined?(:RPG)
   end
 end
