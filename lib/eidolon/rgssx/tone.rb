@@ -16,8 +16,9 @@ class Tone
   attr_accessor :gray
   
   def self._load(array) # :nodoc:
-    self.class.new.instance_eval do
+    self.new.instance_eval do
       @red, @green, @blue, @gray = array.unpack('d4')
+      self
     end
   end
 end
