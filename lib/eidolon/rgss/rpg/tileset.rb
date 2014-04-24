@@ -1,4 +1,9 @@
 module RPG
+  # == RGSS
+  # This data structure is specific to RGSS (XP).
+  # 
+  # == Tileset
+  # Data class for tilesets (as used by maps).
   class Tileset
     attr_accessor :id
     attr_accessor :name

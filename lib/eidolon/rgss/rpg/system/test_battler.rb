@@ -2,6 +2,11 @@ require 'eidolon/rgss/rpg/system'
 
 module RPG
   class System
+    # == RGSS
+    # This data structure is specific to RGSS (XP).
+    # 
+    # == TestBattler
+    # Data class for the battlers used in battle tests.
     class TestBattler
       attr_accessor :actor_id
       attr_accessor :level

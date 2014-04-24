@@ -1,4 +1,9 @@
 module RPG
+  # == RGSS
+  # This data structure is specific to RGSS (XP).
+  # 
+  # == Actor
+  # Data class for actors.
   class Actor
     attr_accessor :id
     attr_accessor :name

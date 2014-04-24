@@ -1,4 +1,9 @@
 module RPG
+  # == RGSS
+  # This data structure is specific to RGSS (XP).
+  # 
+  # == Weapon
+  # Data class for weapons.
   class Weapon
     attr_accessor :id
     attr_accessor :name

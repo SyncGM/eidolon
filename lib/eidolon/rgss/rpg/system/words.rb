@@ -2,6 +2,11 @@ require 'eidolon/rgss/rpg/system'
 
 module RPG
   class System
+    # == RGSS
+    # This data structure is specific to RGSS (XP).
+    # 
+    # == Words
+    # Data class for terminology.
     class Words
       attr_accessor :gold
       attr_accessor :hp

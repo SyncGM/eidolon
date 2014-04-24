@@ -1,4 +1,9 @@
 module RPG
+  # == RGSS
+  # This data structure is specific to RGSS (XP).
+  # 
+  # == Enemy
+  # Data class for enemies.
   class Enemy
     attr_accessor :id
     attr_accessor :name

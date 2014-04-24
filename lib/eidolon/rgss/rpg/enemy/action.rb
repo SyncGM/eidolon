@@ -2,6 +2,11 @@ require 'eidolon/rgss/rpg/enemy'
 
 module RPG
   class Enemy
+    # == RGSS
+    # This data structure is specific to RGSS (XP).
+    # 
+    # == Action
+    # Data class for an enemy action in battle.
     class Action
       attr_accessor :kind
       attr_accessor :basic

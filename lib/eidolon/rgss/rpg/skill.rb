@@ -1,4 +1,9 @@
 module RPG
+  # == RGSS
+  # This data structure is specific to RGSS (XP).
+  # 
+  # == Skill
+  # Data class for skills.
   class Skill
     attr_accessor :id
     attr_accessor :name

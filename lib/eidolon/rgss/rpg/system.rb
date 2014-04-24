@@ -1,4 +1,9 @@
 module RPG
+  # == RGSS
+  # This data structure is specific to RGSS (XP).
+  # 
+  # == System
+  # Data class for the system (miscellaneous configuration options).
   class System
     attr_accessor :magic_number
     attr_accessor :party_members
