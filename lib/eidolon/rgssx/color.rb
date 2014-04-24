@@ -1,7 +1,9 @@
+# == RGSSx
+# This class is present and consistent across all RGSS versions.
+# 
+# == Color
 # The RGBA color class. Each component is handled with a floating-point value
 # (Float).
-# 
-# This class is present and consistent across all RGSS versions.
 class Color
   # The red value (0-255).
   attr_accessor :red

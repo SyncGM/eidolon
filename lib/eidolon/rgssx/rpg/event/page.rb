@@ -2,6 +2,11 @@ require 'eidolon/rgssx/rpg/event'
 
 module RPG
   class Event
+    # == RGSSx
+    # This class is present and relatively consistent across all RGSS versions.
+    # 
+    # == Page
+    # The data class for an event page.
     class Page
       attr_accessor :always_on_top
       attr_accessor :condition

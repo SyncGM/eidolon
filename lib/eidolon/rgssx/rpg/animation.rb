@@ -1,4 +1,9 @@
 module RPG
+  # == RGSSx
+  # This class is present and relatively consistent across all RGSS versions.
+  # 
+  # == Animation
+  # The data class for animations.
   class Animation
     attr_accessor :animation_name
     attr_accessor :animation_hue

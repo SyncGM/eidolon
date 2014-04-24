@@ -1,4 +1,9 @@
 module RPG
+  # == RGSSx
+  # This class is present and consistent across all RGSS versions.
+  # 
+  # == Event
+  # The data class for map events.
   class Event
     attr_accessor :id
     attr_accessor :name

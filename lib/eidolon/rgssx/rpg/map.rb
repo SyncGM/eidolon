@@ -1,4 +1,9 @@
 module RPG
+  # == RGSSx
+  # This class is present and relatively consistent across all RGSS versions.
+  # 
+  # == Map
+  # The data class for maps.
   class Map
     attr_accessor :autoplay_bgm
     attr_accessor :autoplay_bgs

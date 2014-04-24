@@ -1,7 +1,9 @@
+# == RGSSx
+# This class is present and consistent across all RGSS versions.
+# 
+# == Table
 # The multidimensional array class. Each element is an integer of 2 signed
 # bytes ranging from -32,768 to 32,767.
-# 
-# This class is present and consistent across all RGSS versions.
 class Table
   # Size of the Table's X dimension.
   attr_reader :xsize

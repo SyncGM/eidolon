@@ -3,6 +3,12 @@ require 'eidolon/rgssx/rpg/event/page'
 module RPG
   class Event
     class Page
+      # == RGSSx
+      # This class is present and relatively consistent across all RGSS
+      # versions.
+      #
+      # == Condition
+      # The data class for event page conditions. 
       class Condition
         attr_accessor :actor_id
         attr_accessor :actor_valid

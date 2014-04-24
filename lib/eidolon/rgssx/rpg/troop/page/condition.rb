@@ -3,6 +3,12 @@ require 'eidolon/rgssx/rpg/troop/page'
 module RPG
   class Troop
     class Page
+      # == RGSSx
+      # This class is present and relatively consistent across all RGSS
+      # versions.
+      # 
+      # == Condition
+      # The data class for battle event page conditions.
       class Condition
         attr_accessor :actor_hp
         attr_accessor :actor_id

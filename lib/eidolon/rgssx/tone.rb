@@ -1,7 +1,9 @@
+# == RGSSx
+# This class is present and consistent across all RGSS versions.
+# 
+# == Tone
 # The color tone class. Each component is handled with a floating-point value
 # (Float).
-# 
-# This class is present and consistent across all RGSS versions.
 class Tone
   # The red balance adjustment value (-255 to 255).
   attr_accessor :red

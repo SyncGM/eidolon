@@ -3,6 +3,12 @@ require 'eidolon/rgssx/rpg/event/page'
 module RPG
   class Event
     class Page
+      # == RGSSx
+      # This class is present and relatively consistent across all RGSS
+      # versions.
+      # 
+      # == Graphic
+      # The data class for an event page's graphic.
       class Graphic
         attr_accessor :blend_type
         attr_accessor :character_hue
