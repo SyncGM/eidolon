@@ -1,35 +1,34 @@
 require 'spec_helper'
 
 describe Eidolon do
-  let :default_rgss do 'RGSS3' end
   after :each do
     subject.destroy!
-    subject.rgss_version = 'RGSS3'
+    subject.rgss_version = 3
   end
   
   describe '.rgss_version=' do
     context 'given a valid string' do
       it 'assigns the appropriate value' do
         subject.rgss_version = 'rgss2'
-        expect(subject.rgss_version).to eql 'RGSS2'
+        expect(subject.rgss_version).to eql 'rgss2'
       end
     end
     context 'given a valid integer' do
       it 'assigns the appropriate value' do
         subject.rgss_version = 1
-        expect(subject.rgss_version).to eql 'RGSS'
+        expect(subject.rgss_version).to eql 'rgss'
       end
     end
     context 'given an invalid string' do
       it 'refuses the version change' do
         subject.rgss_version = 'RGSS4'
-        expect(subject.rgss_version).to eql 'RGSS3'
+        expect(subject.rgss_version).to eql 'rgss3'
       end
     end
     context 'given an invalid integer' do
       it 'refuses the version change' do
         subject.rgss_version = 4
-        expect(subject.rgss_version).to eql 'RGSS3'
+        expect(subject.rgss_version).to eql 'rgss3'
       end
     end
   end
@@ -42,10 +41,16 @@ describe Eidolon do
           expect { RPG::UsableItem::Damage }.not_to raise_error
         end
       end
-      context 'with argument' do
+      context 'given a valid argument' do
         it 'builds the specified RGSS version' do
           subject.build(2)
           expect { RPG::Area }.not_to raise_error
+        end
+      end
+      context 'given an invalid argument' do
+        it 'builds the default RGSS version' do
+          subject.build(4)
+          expect { RPG::UsableItem::Damage }.not_to raise_error
         end
       end
       it 'returns true' do
@@ -65,24 +70,24 @@ describe Eidolon do
     end
   end
   
-  describe '.force_build!' do
+  describe '.build!' do
     context 'with argument' do
       context 'given a valid argument' do
         it 'builds the given RGSS version' do
-          subject.force_build!(2)
+          subject.build!(2)
           expect { RPG::Area }.not_to raise_error
         end
       end
       context 'given an invalid argument' do
         it 'builds the default RGSS version' do
-          subject.force_build!(4)
+          subject.build!(4)
           expect { RPG::UsableItem::Damage }.not_to raise_error
         end
       end
     end
     context 'without arguments' do
       it 'builds the default RGSS version' do
-        subject.force_build!
+        subject.build!
         expect { RPG::UsableItem::Damage }.not_to raise_error
       end
     end

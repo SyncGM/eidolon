@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe 'Eidolon-built RGSS' do
-  before :each do
+  before :all do
     Eidolon.build('RGSS')
   end
   
-  after :each do
+  after :all do
     Eidolon.destroy!
   end
   
