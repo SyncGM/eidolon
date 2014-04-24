@@ -1,4 +1,4 @@
-require 'eidolon/rgss3/rpg/audio_file'
+require 'eidolon/rgssx/rpg/audio_file'
 
 module RPG
   class BGM < AudioFile

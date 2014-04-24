@@ -12,7 +12,8 @@ class Table
   # Size of the Table's Z dimension.
   attr_reader :zsize
   
-  def self._load(array) # :nodoc:
+  private
+  def self._load(array)
     self.new.instance_eval do
       @size, @xsize, @ysize, @zsize, _, *@data = array.unpack('LLLLLS*')
       self

@@ -1,3 +1,5 @@
+require 'eidolon/version'
+
 # == Eidolon
 # This module provides methods for building the data structures used by the RPG
 # Maker series of game development programs so that the serialized data may be
@@ -82,8 +84,8 @@ module Eidolon
   def self.force_build!(version = @rgss_version)
     self.rgss_version = version unless version == @rgss_version
     @built.push(@rgss_version).sort!.uniq!
-    require 'eidolon/rgssx'
-    load "eidolon/#{@rgss_version.downcase}.rb"
+    load 'eidolon/rgssx/loader.rb'
+    load "eidolon/#{@rgss_version.downcase}/loader.rb"
   end
   
   # Destroys the currently built RGSS data structures. Returns +true+ if the

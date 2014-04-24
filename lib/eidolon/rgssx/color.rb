@@ -15,7 +15,8 @@ class Color
   # The alpha value (0-255).
   attr_accessor :alpha
   
-  def self._load(array) # :nodoc:
+  private
+  def self._load(array)
     self.new.instance_eval do
       @red, @green, @blue, @alpha = array.unpack('d4')
       self

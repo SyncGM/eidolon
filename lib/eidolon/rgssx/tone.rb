@@ -15,7 +15,8 @@ class Tone
   # The gray balance adjustment value (-255 to 255).
   attr_accessor :gray
   
-  def self._load(array) # :nodoc:
+  private
+  def self._load(array)
     self.new.instance_eval do
       @red, @green, @blue, @gray = array.unpack('d4')
       self

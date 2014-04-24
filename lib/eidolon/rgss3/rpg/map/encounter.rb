@@ -1,4 +1,4 @@
-require 'eidolon/rgss3/rpg/map'
+require 'eidolon/rgssx/rpg/map'
 
 module RPG
   class Map
