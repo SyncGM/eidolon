@@ -125,4 +125,30 @@ describe Eidolon do
       end
     end
   end
+  
+  describe '.transform' do
+    context 'given a string' do
+      it 'returns the appropriate string' do
+        expect(subject.send(:transform, 'RGSS3')).to eq 'rgss3'
+      end
+    end
+    context 'given an integer' do
+      it 'returns the appropriate string' do
+        expect(subject.send(:transform, 3)).to eq 'rgss3'
+      end
+    end
+  end
+  
+  describe '.valid?' do
+    context 'given a valid argument' do
+      it 'returns true' do
+        expect(subject.send(:valid?, 3)).to be true
+      end
+    end
+    context 'given an invalid argument' do
+      it 'returns false' do
+        expect(subject.send(:valid?, 4)).to be false
+      end
+    end
+  end
 end

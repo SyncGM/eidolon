@@ -65,13 +65,8 @@ module Eidolon
   #    Eidolon.rgss_version = "RGSS3" # Sets the version to "rgss3".
   #    Eidolon.rgss_version = 1       # Sets the version to "rgss".
   def self.rgss_version=(value)
-    if value =~ /^rgss(\d?)/i
-      value = ($1.empty? ? 1 : $1).to_i
-    else
-      value = value.to_i
-    end
-    return unless value.between?(1, 3)
-    @rgss_version = "rgss#{value if value > 1}"
+    return unless valid?(value)
+    @rgss_version = transform(value)
   end
   
   # Builds the data structures for the desired RGSS version. Returns +true+ if
@@ -87,7 +82,7 @@ module Eidolon
   # Returns +true+ if the data structures were built, +false+ otherwise.
   def self.build!(version = @rgss_version)
     return false if version.nil?
-    self.rgss_version = version unless version == @rgss_version
+    self.rgss_version = version if valid?(version)
     @built.push(@rgss_version).sort!.uniq!
     load 'eidolon/rgssx/loader.rb'
     load "eidolon/#{@rgss_version}/loader.rb"
@@ -107,5 +102,26 @@ module Eidolon
   # Returns +true+ if data structures have been built, +false+ otherwise.
   def self.built?
     Object.const_defined?(:RPG)
+  end
+  
+  private
+  
+  # Transforms the given value into an applicable string used to find the
+  # appropriate RGSS version.
+  def self.transform(version)
+    if version =~ /^rgss(\d?)/i
+      return 'rgss' if $1.empty?
+      'rgss' << $1
+    else
+      return 'rgss' if version == 1
+      'rgss' << version.to_s
+    end
+  end
+  
+  # Returns +true+ if a "loader.rb" file exists for the given RGSS version,
+  # +false+ otherwise.
+  def self.valid?(version)
+    file = File.dirname(__FILE__) << "/eidolon/#{transform(version)}/loader.rb"
+    File.file?(file)
   end
 end
