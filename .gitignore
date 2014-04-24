@@ -1,5 +1,6 @@
+.yardoc/
 coverage/
+doc/
 pkg/
-rdoc/
 .ruby-version
 Gemfile.lock

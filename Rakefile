@@ -3,7 +3,7 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'eidolon/version'
 require 'rake/clean'
-require 'rdoc/task'
+require 'yard'
 
 # Using `rake clean` instead of `clobber` in this project, so load up `CLEAN`
 # appropriately. Assume that `rake clean` should leave the project in a "just
@@ -13,34 +13,26 @@ files = File.readlines('.gitignore').map(&:strip).select! do |file|
 end
 CLEAN.include(*CLOBBER, *files)
 
-# Hash of task names to replace the default RDoc tasks to match the namespacing
-# used in this Rakefile.
-rdoc_tasks = {
-  :rdoc         => 'rdoc:build',
-  :clobber_rdoc => 'rdoc:clean',
-  :rerdoc       => 'rdoc:force'
-}
+# Enable the use of YARD for documentation.
+YARD::Rake::YardocTask.new do |yard|
+  yard.options = [
+    '--title',  'Eidolon RGSSx Documentation',
+    '--readme', 'README.md',
+    '--files',  'LICENSE'
+  ]
+end
 
-# Configuring the RDoc tasks.
-RDoc::Task.new(rdoc_tasks) do |rdoc|
-  rdoc.title    = 'Eidolon RGSSx Documentation'
-  rdoc.main     = 'README.md'
-  rdoc.rdoc_dir = 'rdoc/'
-  rdoc.rdoc_files.include('README.md', 'LICENSE', 'lib/**/*.rb')
+# YARD-related task namespace.
+namespace :yard do
+  # Remove generated YARD documentation if the 'doc/' directory exists.
+  desc 'Remove YARD HTML files'
+  task :clean do
+    rm_r('doc/') if File.directory?('doc/')
+  end
 end
 
 # Remove tasks that won't be used or will be overwritten.
-Rake::Task['rdoc:clean'].clear # Overwritten
-Rake::Task[:clobber].clear     # Unused
-
-# RDoc-related task namespace.
-namespace :rdoc do
-  # Rewrite of `rdoc:clean` to only remove the 'rdoc/' directory if it exists.
-  desc 'Remove RDoc HTML files'
-  task :clean do
-    rm_r('rdoc/') if File.directory?('rdoc/')
-  end
-end
+Rake::Task[:clobber].clear
 
 # RSpec-related task namespace.
 namespace :spec do
@@ -99,9 +91,6 @@ end
 # Shortcut tasks.
 desc 'Run gem:build task'
 task :gem => 'gem:build'
-
-desc 'Run rdoc:force task'
-task :rdoc => 'rdoc:force'
 
 desc 'Run spec:nested task'
 task :spec => 'spec:nested'
