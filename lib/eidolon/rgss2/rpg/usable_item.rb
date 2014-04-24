@@ -1,6 +1,11 @@
 require 'eidolon/rgss2/rpg/base_item'
 
 module RPG
+  # == RGSS2
+  # This data structure is specific to RGSS2 (VX).
+  # 
+  # == UsableItem
+  # Superclass of Skill and Item.
   class UsableItem < BaseItem
     attr_accessor :scope
     attr_accessor :occasion

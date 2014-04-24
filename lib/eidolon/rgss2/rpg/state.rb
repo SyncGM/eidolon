@@ -1,4 +1,9 @@
 module RPG
+  # == RGSS2
+  # This data structure is specific to RGSS2 (VX).
+  # 
+  # == State
+  # Data class for states.
   class State
     attr_accessor :id
     attr_accessor :name

@@ -2,6 +2,11 @@ require 'eidolon/rgss2/rpg/system'
 
 module RPG
   class System
+    # == RGSS2
+    # This data structure is specific to RGSS2 (VX).
+    # 
+    # == Terms
+    # Data class for terminology.
     class Terms
       attr_accessor :level
       attr_accessor :level_a

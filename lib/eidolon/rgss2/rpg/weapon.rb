@@ -1,6 +1,11 @@
 require 'eidolon/rgss2/rpg/base_item'
 
 module RPG
+  # == RGSS2
+  # This data structure is specific to RGSS2 (VX).
+  # 
+  # == Weapon
+  # Data class for weapons.
   class Weapon < BaseItem
     attr_accessor :animation_id
     attr_accessor :price

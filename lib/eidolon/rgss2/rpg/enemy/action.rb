@@ -2,6 +2,11 @@ require 'eidolon/rgss2/rpg/enemy'
 
 module RPG
   class Enemy
+    # == RGSS2
+    # This data structure is specific to RGSS2 (VX).
+    # 
+    # == Action
+    # Data class for enemy battle actions.
     class Action
       attr_accessor :kind
       attr_accessor :basic
