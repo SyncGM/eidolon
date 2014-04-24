@@ -1,4 +1,9 @@
 module RPG
+  # == RGSS3
+  # This data structure is specific to RGSS3 (VX Ace).
+  # 
+  # == System
+  # Data class for the system (miscellaneous configuration options).
   class System
     attr_accessor :game_title
     attr_accessor :version_id

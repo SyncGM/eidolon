@@ -1,6 +1,11 @@
 require 'eidolon/rgss3/rpg/base_item'
 
 module RPG
+  # == RGSS3
+  # This data structure is specific to RGSS3 (VX Ace).
+  # 
+  # == State
+  # The data class for states.
   class State < BaseItem
     attr_accessor :restriction
     attr_accessor :priority

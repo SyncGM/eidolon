@@ -1,6 +1,11 @@
 require 'eidolon/rgss3/rpg/usable_item'
 
 module RPG
+  # == RGSS3
+  # This data structure is specific to RGSS3 (VX Ace).
+  # 
+  # == Skill
+  # The data class for skills.
   class Skill < UsableItem
     attr_accessor :stype_id
     attr_accessor :mp_cost
