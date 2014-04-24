@@ -104,24 +104,25 @@ module Eidolon
     Object.const_defined?(:RPG)
   end
   
-  private
-  
-  # Transforms the given value into an applicable string used to find the
-  # appropriate RGSS version.
-  def self.transform(version)
-    if version =~ /^rgss(\d?)/i
-      return 'rgss' if $1.empty?
-      'rgss' << $1
-    else
-      return 'rgss' if version == 1
-      'rgss' << version.to_s
+  class << self
+    private
+    # Transforms the given value into an applicable string used to find the
+    # appropriate RGSS version.
+    def transform(version)
+      if version =~ /^rgss(\d?)/i
+        return 'rgss' if $1.empty?
+        'rgss' << $1
+      else
+        return 'rgss' if version == 1
+        'rgss' << version.to_s
+      end
     end
-  end
   
-  # Returns +true+ if a "loader.rb" file exists for the given RGSS version,
-  # +false+ otherwise.
-  def self.valid?(version)
-    file = File.dirname(__FILE__) << "/eidolon/#{transform(version)}/loader.rb"
-    File.file?(file)
+    # Returns +true+ if a "loader.rb" file exists for the given RGSS version,
+    # +false+ otherwise.
+    def valid?(version)
+      fn = File.dirname(__FILE__) << "/eidolon/#{transform(version)}/loader.rb"
+      File.file?(fn)
+    end
   end
 end
