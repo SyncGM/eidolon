@@ -20,10 +20,6 @@ require 'eidolon/version'
 # running Ruby implementation. Note that the +Eidolon.build+ method will only
 # build data structures *once*.
 # 
-# You may use the +Eidolon.force_build!+ method if you need to build the RGSS
-# data structures again for any reason -- just be aware that this is likely to
-# mutate the default data structures (or fail entirely).
-
 # You will need to use the +Eidolon.destroy!+ method if you intend to use more
 # than one RGSS version in a single Ruby session. On their own, the RGSSx data
 # structures are inherently incompatible with one another -- as such, the
@@ -34,8 +30,8 @@ require 'eidolon/version'
 #     require 'eidolon'
 #     
 #     # Building the RGSS3 (VX Ace) data structures.
-#     Eidolon.rgss_version = 'rgss3'
-#     Eidolon.rgss_version # => "RGSS3"
+#     Eidolon.rgss_version = 'RGSS3'
+#     Eidolon.rgss_version # => "rgss3"
 #     Eidolon.build        # => true
 #     Eidolon.built?       # => true
 #     
@@ -47,7 +43,7 @@ require 'eidolon/version'
 #     Eidolon.build(1) # => true
 #     
 #     # Obtaining an array of the built RGSSx structures.
-#     Eidolon.built # => ["RGSS", "RGSS3"]
+#     Eidolon.built # => ["rgss", "rgss3"]
 module Eidolon
   class << self
     # The RGSSx version used by Eidolon. This determines which data structures
@@ -66,8 +62,8 @@ module Eidolon
   # integer or representative string value for the desired RGSS version.
   # 
   # Examples:
-  #    Eidolon.rgss_version = "rgss3" # Sets the version to "RGSS3".
-  #    Eidolon.rgss_version = 1       # Sets the version to "RGSS".
+  #    Eidolon.rgss_version = "RGSS3" # Sets the version to "rgss3".
+  #    Eidolon.rgss_version = 1       # Sets the version to "rgss".
   def self.rgss_version=(value)
     if value =~ /^rgss(\d?)/i
       value = ($1.empty? ? 1 : $1).to_i
