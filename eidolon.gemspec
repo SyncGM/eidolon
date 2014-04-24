@@ -22,7 +22,7 @@ Gem::Specification.new do |gem|
   }.gsub(/\s+/, " ").strip
   
   # Development dependencies.
-  { yard: '~> 0.8', rdoc: '~> 4.1', rspec: '~> 2.14' }.each do |dep, version|
+  { yard: '~> 0.8', rake: '~> 10.3', rspec: '~> 2.14' }.each do |dep, version|
     gem.add_development_dependency(dep.to_s, version)
   end
   
