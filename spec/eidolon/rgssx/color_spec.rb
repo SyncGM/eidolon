@@ -2,7 +2,11 @@ require 'spec_helper'
 require 'eidolon/rgssx/color'
 
 describe Color do
-  let :color do load_data('rgssx/Color.rdata') end
+  let :color do
+    Dir.glob('**/Color.rdata') do |file|
+      File.open(file, 'rb') { |data| return Marshal.load(data) }
+    end
+  end
   
   describe '._load' do
     it 'successfully recreates a Color instance' do

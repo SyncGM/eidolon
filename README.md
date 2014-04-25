@@ -23,30 +23,21 @@ require 'eidolon/rgss2'
 require 'eidolon/rgss3'
 ```
 
-Note that only one version may be required this way: attempting to require more than one version of the RGSS data structures will result in superclass mismatches. For this reason, if you potentially need to operate with more than one of the RGSS versions, you should use the core Eidolon module; essentially, the usage of this module allows you to dynamically create and destroy the needed RPG data structures whenever they are required. See the included documentation for more detailed information about the usage of the Eidolon module.
+Note that only one version may be required this way: attempting to `require` more than one version of the RGSS data structures will result in superclass mismatches. For this reason, if you potentially need to operate with more than one of the RGSS versions, you should use the core Eidolon module instead; essentially, the usage of this module allows you to dynamically create and destroy the needed RPG data structures whenever they are required. See the included documentation for more detailed information about the usage of the Eidolon module.
 
 ```ruby
 require 'eidolon'
 
+# Equivalent to the RGSSx +load_data+ method.
 def load_data(filename)
-  File.open(filename, 'rb') do |file|
-    return Marshal.load(file)
-  end
+  File.open(filename, 'rb') { |data| return Marshal.load(data) }
 end
 
-@rgss_data  = []
-@rgss3_data = []
-
-Eidolon.build('RGSS')
-Dir.glob('**/*.rxdata') do |rxdata|
-  @rgss_data.push(load_data(rxdata))
-end
-
-Eidolon.destroy!
-
-Eidolon.build('RGSS3')
-Dir.glob('**/*.rvdata2') do |rvdata2|
-  @rgss3_data.push(load_data(rvdata2))
+# Build the RGSS data structures and return RMXP project data.
+Eidolon.build('RGSS') do
+  data = []
+  Dir.glob('**/*.rxdata') { |rxdata| data << load_data(rxdata) }
+  data
 end
 ```
 

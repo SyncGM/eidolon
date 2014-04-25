@@ -1,94 +1,100 @@
 require 'eidolon/version'
 
 # == Eidolon
-# This module provides methods for building the data structures used by the RPG
-# Maker series of game development programs so that the serialized data may be
-# loaded into an external Ruby implementation. The methods used are platform
-# and dependency agnostic.
+# This module provides methods for creating and destroying the data structures
+# used by the RPG Maker series of game development programs so that their data
+# may be loaded into an external Ruby implementation. The methods used are
+# platform and dependency agnostic.
 # 
 # == Usage
 # It is recommended that you explicitly declare which RGSS version Eidolon
 # should use before building the RGSSx data structures required; this is done
 # through the +Eidolon.rgss_version=+ method. This method accepts both integer
-# and representative string values -- for example, passing it an argument of
-# 1 or "RGSS" will both set the Eidolon RGSS version to the appropriate value.
-# Recognized RGSS versions are "RGSS" (XP), "RGSS2" (VX), and "RGSS3" (VX Ace).
+# and representative string or symbol values -- for example, passing it an
+# argument of 1, 'RGSS2', or :rgss3 will set the Eidolon RGSS version to the
+# appropriate value.
 # 
 # After explicitly requesting the desired RGSS version, you will want to build
 # the desired data structures with the +Eidolon.build+ method. This will create
 # the data structures for the specified RGSS version for use by the currently
 # running Ruby implementation. Note that the +Eidolon.build+ method will only
-# build data structures *once*.
+# build data structures *once*. You may also explicitly pass an RGSS version to
+# build as an argument to this method.
 # 
-# You will need to use the +Eidolon.destroy!+ method if you intend to use more
-# than one RGSS version in a single Ruby session. On their own, the RGSSx data
-# structures are inherently incompatible with one another -- as such, the
-# previous data structures must be destroyed, which is what +Eidolon.destroy!+
-# does for you.
+# Be aware that you will need to use the +Eidolon.destroy!+ method if you wish
+# to use more than one RGSS version in a single Ruby session. On their own, the
+# RGSSx data structures are inherently incompatible with one another (raising
+# superclass mismatch errors) -- as such, the previous data structures must be
+# destroyed, which the +Eidolon.destroy!+ method does for you.
 # 
-# == Example
+# In addition to this, you may pass a block to the +Eidolon.build+ method which
+# automatically creates and destroys the data structures for the passed RGSS
+# version. The specified RGSS version is available inside of the block and
+# destroyed immediately after the block returns. Using a block will also return
+# the value of the *block* rather than the usual +true+ or +false+ value.
+# 
+# == Examples
 #     require 'eidolon'
 #     
-#     # Building the RGSS3 (VX Ace) data structures.
+#     # Equivalent to the RGSSx method of the same name.
+#     def load_data(filename)
+#       File.open(filename, 'rb') { |data| return Marshal.load(data) }
+#     end
+#     
+#     # Build the RGSS3 (VX Ace) data structures and obtain the project data of
+#     # an unencrypted RMVX Ace game.
 #     Eidolon.rgss_version = 'RGSS3'
-#     Eidolon.rgss_version # => "rgss3"
-#     Eidolon.build        # => true
-#     Eidolon.built?       # => true
+#     Eidolon.build  # => true
+#     Eidolon.built? # => true
+#     
+#     # Initialize an array for storing the data, then fill it.
+#     @rgss3_data = []
+#     Dir.glob('**/*.rvdata2') { |data| @rgss3_data << load_data(data) }
+#     @rgss3_data # => [[nil, #<RPG::Actor...> ... ] ... ]
 #     
 #     # Destroy the previously built RGSS3 data structures.
-#     Eidolon.destroy!
+#     Eidolon.destroy! # => true
+#     Eidolon.built?   # => false
+#     
+#     # Now we can build the RGSS (XP) data structures with a block and return
+#     # the project data for an unencrypted RMXP game.
+#     Eidolon.build(1) do
+#       # Initialize an array for storing the data, fill it, then use it as the
+#       # block's return value.
+#       @xp_data = []
+#       Dir.glob('**/*.rxdata') { |data| @xp_data << load_data(data) }
+#       @xp_data
+#     end            # => [[nil, #<RPG::Actor...> ... ] ... ]
 #     Eidolon.built? # => false
-#     
-#     # Now we can build the RGSS (XP) data structures as well.
-#     Eidolon.build(1) # => true
-#     
-#     # Obtaining an array of the built RGSSx structures.
-#     Eidolon.built # => ["rgss", "rgss3"]
 module Eidolon
   class << self
-    # The RGSSx version used by Eidolon. This determines which data structures
-    # to require in order to facilitate working with serialized RGSSx data.
-    attr_reader :rgss_version
-    
-    # An array of the RGSS versions which have had their data structures built
-    # by Eidolon.
-    attr_reader :built
-  end
-  
-  # Initialize the array of built RGSS versions.
-  @built = []
-  
-  # Set the RGSS version used by Eidolon to the passed value. May be set to an
-  # integer or representative string value for the desired RGSS version.
-  # 
-  # Examples:
-  #    Eidolon.rgss_version = "RGSS3" # Sets the version to "rgss3".
-  #    Eidolon.rgss_version = 1       # Sets the version to "rgss".
-  def self.rgss_version=(value)
-    return unless valid?(value)
-    @rgss_version = transform(value)
+    # The default RGSS version for Eidolon to build if no argument is given to
+    # the +Eidolon.build+ method. This is +nil+ by default.
+    attr_accessor :rgss_version
   end
   
   # Builds the data structures for the desired RGSS version. Returns +true+ if
   # the data structures were built, +false+ otherwise. This is a safe method,
   # ensuring that only the data structures from a single RGSS version will be
   # built.
+  # 
+  # If a block is given, the data structures are built before the block is
+  # executed and then automatically destroyed. This is particularly useful for
+  # temporarily accessing RGSSx data, and returns the return value of the given
+  # block.
   def self.build(version = @rgss_version)
-    return false if version.nil?
-    built? ? false : build!(version)
-  end
-  
-  # Forces building of the data structures for the desired RGSS version.
-  # Returns +true+ if the data structures were built, +false+ otherwise.
-  def self.build!(version = @rgss_version)
-    return false if version.nil?
-    self.rgss_version = version
-    @built.push(@rgss_version).compact.sort!.uniq!
-    load 'eidolon/rgssx/loader.rb'
-    load "eidolon/#{@rgss_version}/loader.rb"
-  rescue LoadError
+    return false if version.nil? || built?
+    begin
+      load 'eidolon/rgssx/loader.rb'
+      load "eidolon/#{transform(version)}/loader.rb"
+      return true unless block_given?
+    rescue ArgumentError, LoadError
+      destroy!
+      return false
+    end
+    return_value = yield
     destroy!
-    false
+    return_value
   end
   
   # Destroys the currently built RGSS data structures. Returns +true+ if the
@@ -108,22 +114,18 @@ module Eidolon
   class << self
     private
     # Transforms the given value into an applicable string used to find the
-    # appropriate RGSS version.
+    # appropriate RGSS version. Returns the transformed string. Raises an
+    # +ArgumentError+ if the string could not be transformed.
     def transform(version)
+      return version if version == (string = 'rgss')
       if version =~ /^rgss(\d?)/i
-        return 'rgss' if $1.empty?
-        'rgss' << $1
+        string << $1 unless $1.empty?
       else
-        return 'rgss' if version == 1
-        'rgss' << version.to_s
+        string << version.to_s unless version.between?(0, 1)
       end
-    end
-  
-    # Returns +true+ if a "loader.rb" file exists for the given RGSS version,
-    # +false+ otherwise.
-    def valid?(version)
-      fn = File.dirname(__FILE__) << "/eidolon/#{transform(version)}/loader.rb"
-      File.file?(fn)
+      string
+    rescue
+      raise ArgumentError.new("'#{version}' is an invalid RGSS version.")
     end
   end
 end
