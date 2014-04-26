@@ -41,6 +41,21 @@ Eidolon.build('RGSS') do
 end
 ```
 
+## Local Extensions
+Eidolon has been written in a way that allows developers to easily extend or modify the RGSSx data that it loads. This feature was primarily included to allow newer versions of RGSSx to be easily added to Eidolon in case of their release.
+
+Essentially, Eidolon looks through a defined path for specific files to load RGSS data dependent on the RGSS version you request. For RGSS, it looks for `eidolon/rgss/loader.rb`, RGSS2 looks for `eidolon/rgss2/loader.rb`, and so on. In order to create RGSS4, for example, you simply need to recreate this structure locally -- and Eidolon will allow you to use it.
+
+```
+$ cat eidolon/rgss4/loader.rb
+# Load all of your needed modifications here.
+load 'eidolon/rgssx/loader.rb'
+load 'eidolon/rgss4/rpg/example.rb'
+
+$ cat rgss4_application.rb
+Eidolon.build(:RGSS4) { ... }
+```
+
 ## Installation
 ```sh
 $ gem install eidolon
