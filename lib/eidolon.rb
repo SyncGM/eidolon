@@ -38,7 +38,7 @@ require 'eidolon/version'
 #     
 #     # Equivalent to the RGSSx method of the same name.
 #     def load_data(filename)
-#       File.open(filename, 'rb') { |data| return Marshal.load(data) }
+#       File.open(filename, 'rb') { |data| Marshal.load(data) }
 #     end
 #     
 #     # Build the RGSS3 (VX Ace) data structures and obtain the project data of

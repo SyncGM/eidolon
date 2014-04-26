@@ -4,7 +4,7 @@ require 'eidolon/rgssx/color'
 describe Color do
   let :color do
     Dir.glob('**/Color.rdata') do |file|
-      File.open(file, 'rb') { |data| return Marshal.load(data) }
+      File.open(file, 'rb') { |data| Marshal.load(data) }
     end
   end
   

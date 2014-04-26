@@ -30,7 +30,7 @@ require 'eidolon'
 
 # Equivalent to the RGSSx +load_data+ method.
 def load_data(filename)
-  File.open(filename, 'rb') { |data| return Marshal.load(data) }
+  File.open(filename, 'rb') { |data| Marshal.load(data) }
 end
 
 # Build the RGSS data structures and return RMXP project data.

@@ -4,7 +4,7 @@ require 'eidolon/rgssx/table'
 describe Table do
   let :table do
     Dir.glob('**/Table.rdata') do |file|
-      File.open(file, 'rb') { |data| return Marshal.load(data) }
+      File.open(file, 'rb') { |data| Marshal.load(data) }
     end
   end
   
