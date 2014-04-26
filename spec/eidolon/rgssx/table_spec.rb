@@ -3,9 +3,11 @@ require 'eidolon/rgssx/table'
 
 describe Table do
   let :table do
+    object = nil
     Dir.glob('**/Table.rdata') do |file|
-      File.open(file, 'rb') { |data| Marshal.load(data) }
+      object = File.open(file, 'rb') { |data| Marshal.load(data) }
     end
+    object
   end
   
   describe '._load' do

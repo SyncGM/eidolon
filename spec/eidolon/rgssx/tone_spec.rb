@@ -3,9 +3,11 @@ require 'eidolon/rgssx/tone'
 
 describe Tone do
   let :tone do
+    object = nil
     Dir.glob('**/Tone.rdata') do |file|
-      File.open(file, 'rb') { |data| Marshal.load(data) }
+      object = File.open(file, 'rb') { |data| Marshal.load(data) }
     end
+    object
   end
   
   describe '._load' do
