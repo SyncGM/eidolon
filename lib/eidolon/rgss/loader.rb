@@ -6,7 +6,8 @@
 # be loaded -- the actual order of loading them is unimportant (unlike the data
 # structures used by VX and VX Ace, which require some specific ordering).
 
-require 'eidolon/rgssx'
+# Load the generic RGSSx data structures.
+load 'eidolon/rgssx/loader.rb'
 
 load 'eidolon/rgss/rpg/actor.rb'
 load 'eidolon/rgss/rpg/armor.rb'

@@ -85,7 +85,6 @@ module Eidolon
   def self.build(version = @rgss_version)
     return false if version.nil? || built?
     begin
-      load 'eidolon/rgssx/loader.rb'
       load "eidolon/#{transform(version)}/loader.rb"
       return true unless block_given?
     rescue ArgumentError, LoadError
