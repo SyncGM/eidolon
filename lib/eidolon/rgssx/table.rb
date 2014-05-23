@@ -19,7 +19,7 @@ class Table
   # does not exist.
   def [](x, y = 0, z = 0)
     return nil if x >= @xsize || y >= @ysize
-    @data[x + y * @xsize + z * @xsize * @ysize]
+    @data[x + (y * @xsize) + (z * @xsize * @ysize)]
   end
   
   # Provides object inspection identical to that provided by RGSSx.
